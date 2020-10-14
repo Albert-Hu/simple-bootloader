@@ -31,6 +31,7 @@
 - Data section and BSS section are at 0x20000000
 - Stack pointer is at 0x20010000
 
+```
 +------------+ 0x20010000
 |            |
 |            |
@@ -38,6 +39,7 @@
 |            |
 |            |
 +------------+ 0x20000000
+```
 
 # Reference
 - [mini-arm-os](https://github.com/jserv/mini-arm-os)
