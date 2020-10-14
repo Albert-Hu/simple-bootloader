@@ -35,6 +35,7 @@ void main(void)
 	*(USART2_CR3) = 0x00000000;
 	*(USART2_CR1) |= 0x2000;
 
+	print_str("app is running...\r\n");
 	print_str(message);
 
 	while (1);
