@@ -26,20 +26,27 @@
 +------------+ 0x08000000
 ```
 
-# RAM
-- RAM size is 64KB.
-- Data section and BSS section are at 0x20000000
-- Stack pointer is at 0x20010000
+# RAM & DRAM
+- RAM is used by main stack pointer.
+- DRAM is used by heap of malloc.
 
 ```
 +------------+ 0x20010000
 |            |
+|   (DRAM)   |
++------------+ 0x20008000
 |            |
-|            |
-|            |
-|            |
+|   (RAM)    |
 +------------+ 0x20000000
 ```
+
+## RAM
+- RAM size is 32KB.
+- RAM start at 0x20000000
+
+## DRAM
+- DRAM size is 32KB.
+- DRAM start at 0x20008000
 
 # Reference
 - [mini-arm-os](https://github.com/jserv/mini-arm-os)
