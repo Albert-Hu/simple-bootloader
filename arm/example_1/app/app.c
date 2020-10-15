@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdint.h>
 #include "reg.h"
 
@@ -7,16 +8,7 @@
  */
 #define USART_FLAG_TXE	((uint16_t) 0x0080)
 
-static char message[] = "Hello World!\r\n";
-
-void print_str(const char *str)
-{
-	while (*str) {
-		while (!(*(USART2_SR) & USART_FLAG_TXE));
-		*(USART2_DR) = (*str & 0xFF);
-		str++;
-	}
-}
+static char message[] = "Hello World!";
 
 void main(void)
 {
@@ -35,8 +27,8 @@ void main(void)
 	*(USART2_CR3) = 0x00000000;
 	*(USART2_CR1) |= 0x2000;
 
-	print_str("app is running...\r\n");
-	print_str(message);
+	printf("app is running...\r\n");
+	printf("%s\r\n", message);
 
 	while (1);
 }

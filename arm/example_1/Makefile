@@ -5,7 +5,7 @@ TARGET = example_1.bin
 all: $(TARGET)
 
 $(TARGET): bootloader.bin app.bin
-	$(CROSS_COMPILE)objcopy --gap-fill 0xff --pad-to 0x08008000 -O binary bootloader/bootloader.elf bootloader.bin
+	$(CROSS_COMPILE)objcopy --gap-fill 0xff --pad-to 0x08010000 -O binary bootloader/bootloader.elf bootloader.bin
 	$(CROSS_COMPILE)objcopy -O binary app/app.elf app.bin
 	cat $? > $@
 

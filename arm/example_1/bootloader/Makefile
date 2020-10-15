@@ -7,7 +7,7 @@ CFLAGS = -fno-common -g \
 TARGET = bootloader.elf
 all: $(TARGET)
 
-$(TARGET): bootloader.c startup.c
+$(TARGET): bootloader.c startup.c port.c
 	$(CC) $(CFLAGS) $^ -o bootloader.elf
 
 clean:

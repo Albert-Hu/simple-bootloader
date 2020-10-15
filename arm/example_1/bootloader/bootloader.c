@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include "reg.h"
 
 /* USART TXE Flag
@@ -15,15 +16,6 @@ void load_app(uint32_t sp, uint32_t pc)
 {
   __asm("msr msp, r0");
   __asm("bx r1");
-}
-
-void print_str(const char *str)
-{
-	while (*str) {
-		while (!(*(USART2_SR) & USART_FLAG_TXE));
-		*(USART2_DR) = (*str & 0xFF);
-		str++;
-	}
 }
 
 void main(void)
@@ -43,11 +35,9 @@ void main(void)
 	*(USART2_CR3) = 0x00000000;
 	*(USART2_CR1) |= 0x2000;
 
-  print_str("Simple Bootloader\r\n");
-  print_str("Version: ");
-	print_str(version);
-  print_str("\r\n");
-	print_str("load app...\r\n\r\n");
+  printf("Simple Bootloader\r\n");
+  printf("Version: %s\r\n", version);
+	printf("load app...\r\n\r\n");
 
   load_app(_app_rom, *(&_app_rom + 1));
 

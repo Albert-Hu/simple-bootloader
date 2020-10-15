@@ -7,7 +7,7 @@ CFLAGS = -fno-common -g \
 TARGET = app.elf
 all: $(TARGET)
 
-$(TARGET): app.c startup.c
+$(TARGET): app.c startup.c port.c
 	$(CC) $(CFLAGS) $^ -o app.elf
 
 clean:
