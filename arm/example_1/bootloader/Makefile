@@ -5,10 +5,11 @@ CFLAGS = -fno-common -g \
 	 -T bootloader.ld -nostartfiles \
 
 TARGET = bootloader.elf
+
 all: $(TARGET)
 
 $(TARGET): bootloader.c startup.c port.c
-	$(CC) $(CFLAGS) $^ -o bootloader.elf
+	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -f *.o *.elf
+	rm -f *.o $(TARGET)

@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include "reg.h"
 
-/* USART TXE Flag
- * This flag is cleared when data is written to USARTx_DR and
- * set when that data is transferred to the TDR
- */
-#define USART_FLAG_TXE	((uint16_t) 0x0080)
+struct version {
+	unsigned int major;
+	unsigned int minor;
+	unsigned int build;
+};
+extern int _write(int file, char* ptr, int len);
+extern uint32_t _app_entry;
 
-extern uint32_t _app_rom;
-
-static char version[] = "0.0.1";
+struct version bootloader_version = { 0, 0, 1 };
+char version_string[16];
 
 void load_app(uint32_t sp, uint32_t pc)
 {
@@ -35,11 +36,16 @@ void main(void)
 	*(USART2_CR3) = 0x00000000;
 	*(USART2_CR1) |= 0x2000;
 
-  printf("Simple Bootloader\r\n");
-  printf("Version: %s\r\n", version);
+	snprintf(version_string, 15, "%u.%u.%u"
+		, bootloader_version.major
+		, bootloader_version.minor
+		, bootloader_version.build);
+
+  printf("=== Simple Bootloader ===\r\n");
+  printf("Version: %s\r\n", version_string);
 	printf("load app...\r\n\r\n");
 
-  load_app(_app_rom, *(&_app_rom + 1));
+  //load_app(_app_entry, *(&_app_entry + 1));
 
 	while (1);
 }
