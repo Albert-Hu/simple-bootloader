@@ -5,6 +5,9 @@
 
 #define USART_FLAG_TXE	((uint16_t) 0x0080)
 
+extern char _heap_begin;
+extern char _heap_end;
+
 int _close(int file)
 {
   return -1;
@@ -38,9 +41,6 @@ int _read(int file, char* ptr, int len)
 
 caddr_t _sbrk(int incr)
 {
-  extern char _heap_begin; // Defined by the linker.
-  extern char _heap_end; // Defined by the linker.
-
   static char* current_heap_end;
   char* current_block_address;
 
@@ -62,7 +62,6 @@ caddr_t _sbrk(int incr)
   }
 
   current_heap_end += incr;
-  
   return (caddr_t) current_block_address;
 }
 

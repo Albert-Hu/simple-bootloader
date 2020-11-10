@@ -1,14 +1,15 @@
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include "reg.h"
 
-/* USART TXE Flag
- * This flag is cleared when data is written to USARTx_DR and
- * set when that data is transferred to the TDR
- */
-#define USART_FLAG_TXE	((uint16_t) 0x0080)
+struct version {
+	unsigned int major;
+	unsigned int minor;
+	unsigned int build;
+};
 
-static char message[] = "Hello World!";
+struct version app_version = { 1, 0, 0 };
+char version_string[16];
 
 void main(void)
 {
@@ -27,8 +28,14 @@ void main(void)
 	*(USART2_CR3) = 0x00000000;
 	*(USART2_CR1) |= 0x2000;
 
+	snprintf(version_string, 15, "%u.%u.%u"
+		, app_version.major
+		, app_version.minor
+		, app_version.build);
+
+  printf("=== The App ===\r\n");
+  printf("Version: %s\r\n", version_string);
 	printf("app is running...\r\n");
-	printf("%s\r\n", message);
 
 	while (1);
 }

@@ -11,8 +11,7 @@ bootloader.bin:
 	make -C bootloader
 
 $(TARGET): bootloader.bin app.bin
-#	$(CROSS_COMPILE)objcopy --gap-fill 0xff --pad-to 0x08010000 -O binary bootloader/bootloader.elf bootloader.bin
-	$(CROSS_COMPILE)objcopy --gap-fill 0xff --pad-to 0x00010000 -O binary bootloader/bootloader.elf bootloader.bin
+	$(CROSS_COMPILE)objcopy --gap-fill 0xff --pad-to 0x08010000 -O binary bootloader/bootloader.elf bootloader.bin
 	$(CROSS_COMPILE)objcopy -O binary app/app.elf app.bin
 	cat $? > $@
 

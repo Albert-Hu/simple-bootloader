@@ -7,7 +7,7 @@ struct version {
 	unsigned int minor;
 	unsigned int build;
 };
-extern int _write(int file, char* ptr, int len);
+
 extern uint32_t _app_entry;
 
 struct version bootloader_version = { 0, 0, 1 };
@@ -45,7 +45,7 @@ void main(void)
   printf("Version: %s\r\n", version_string);
 	printf("load app...\r\n\r\n");
 
-  //load_app(_app_entry, *(&_app_entry + 1));
+  load_app(_app_entry, *(&_app_entry + 1));
 
 	while (1);
 }
