@@ -1,20 +1,16 @@
 # Boot Flow
 1. Execute bootloader code from 0x08000000.
 2. Run bootloader and initialize RAM, setup the .data section and clean up .bss section.
-3. Copy config to RAM which address at 0x20000000.
-4. Finish boot procedure and execute app code from 0x08008000.
-5. Run app and initialize RAM, setup the .data section and clean up .bss section.
-6. Print config from RAM which address at 0x20000000.
+3. Finish boot procedure and execute app code from 0x08008000.
+4. Run app and initialize RAM, setup the .data section and clean up .bss section.
 
 # What does Bootloader do?
-1. Copy config from ROM to RAM.
-2. Print booting message.
-3. Reset MSP(Main Stack Pointer) register.
-4. Reset PC(Program Counter) to app's entry point.
+1. Print booting message.
+2. Reset MSP(Main Stack Pointer) register.
+3. Reset PC(Program Counter) to app's entry point.
 
 # What does app do?
-1. Print config.
-2. Print app message.
+1. Just print message.
 
 # ROM Partition
 - Bootloader start at 0x08000000
@@ -30,22 +26,27 @@
 +------------+ 0x08000000
 ```
 
-# RAM
-- Total RAM size is 64KB.
-- Config store at 0x20000000 which size is 4KB.
-- RAM size used by bootloader and app is 60KB.
-- Data section and BSS section are at 0x20001000
-- Stack pointer is at 0x20010000
+# RAM & DRAM
+- RAM is used by main stack pointer.
+- DRAM is used by heap of malloc.
 
 ```
 +------------+ 0x20010000
-| Bootloader |
-|     &      |
-|    APP     |
-+------------+ 0x20001000
-|   Config   |
+|            |
+|   (DRAM)   |
++------------+ 0x20008000
+|            |
+|   (RAM)    |
 +------------+ 0x20000000
 ```
+
+## RAM
+- RAM size is 32KB.
+- RAM start at 0x20000000
+
+## DRAM
+- DRAM size is 32KB.
+- DRAM start at 0x20008000
 
 # Reference
 - [mini-arm-os](https://github.com/jserv/mini-arm-os)

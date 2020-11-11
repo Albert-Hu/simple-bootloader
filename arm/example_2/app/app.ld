@@ -1,40 +1,61 @@
 ENTRY(reset_handler)
 
+/*
+	The STM32-P103 has 128 KB flash and 20 KB RAM.
+	The app uses half of the size of the flash.
+*/
 MEMORY
 {
-	ROM (rx) : ORIGIN = 0x08008000, LENGTH = 32K
-	RAM (rwx) : ORIGIN = 0x20001000, LENGTH = 60K
-	CFG (rwx) : ORIGIN = 0x20000000, LENGTH = 4K
+	FLASH (rx) : ORIGIN = 0x08010000, LENGTH = 64K
+	SRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
 }
 
 SECTIONS
 {
-	.text :
+	.text : ALIGN(4)
 	{
+		FILL(0xff)
 		KEEP(*(.isr_vector))
-		*(.text)
-		*(.text.*)
-		*(.rodata)
-		_sromdev = .;
-		_eromdev = .;
-		_sidata = .;
-	} >ROM
+		. = ALIGN(4);
 
-	.data : AT(_sidata)
+		/* Data Section Information */
+		_data_section = .;
+		/* LMA, Load Memory Address */
+		LONG(LOADADDR(.data));
+		/* VMA, Virtual Memory Address */
+		LONG(ADDR(.data));
+		LONG(SIZEOF(.data));
+
+		/* BSS Section Information */
+		_bss_section = .;
+		/* VMA, Virtual Memory Address */
+		LONG(ADDR(.bss));
+		LONG(SIZEOF(.bss));
+	} > FLASH
+
+	.text : ALIGN(4)
 	{
-		_sdata = .;
-		*(.data)
-		*(.data*)
-		_edata = .;
-	} >RAM
+		*(.text* .text.*)
+		*(.rodata .rodata.*)
+		. = ALIGN(4);
+	} > FLASH
 
-	.bss :
+	.data : ALIGN(4)
 	{
-		_sbss = .;
-		*(.bss)
-		_ebss = .;
-	} >RAM
+		FILL(0xff)
+		*(.data .data.*)
+		. = ALIGN(4);
+	} > SRAM AT>FLASH
 
-	_estack = ORIGIN(RAM) + LENGTH(RAM);
-	_config = ORIGIN(CFG);
+	.bss : ALIGN(4)
+	{
+		FILL(0xff)
+		*(.bss .bss.*)
+		. = ALIGN(4);
+	} > SRAM
+
+	_stack_size = 4k;
+	_stack_top = ORIGIN(SRAM) + LENGTH(SRAM) - 4;
+	_heap_begin = ORIGIN(SRAM) + SIZEOF(.data) + SIZEOF(.bss);
+	_heap_end = ORIGIN(SRAM) + LENGTH(SRAM) - _stack_size;
 }
