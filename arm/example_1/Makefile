@@ -24,6 +24,6 @@ simulate: $(TARGET)
 clean:
 	make -C app clean
 	make -C bootloader clean
-	rm -f *.bin
+	rm -f bootloader.bin app.bin $(TARGET)
 
-.PHONY: app bootloader
+.PHONY: app.bin bootloader.bin

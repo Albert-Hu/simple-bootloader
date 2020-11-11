@@ -1,6 +1,6 @@
 CROSS_COMPILE ?= arm-none-eabi-
 
-TARGET = example_1.bin
+TARGET = example_2.bin
 
 all: $(TARGET)
 
@@ -24,6 +24,6 @@ simulate: $(TARGET)
 clean:
 	make -C app clean
 	make -C bootloader clean
-	rm -f *.bin
+	rm -f bootloader.bin app.bin $(TARGET)
 
-.PHONY: app bootloader
+.PHONY: app.bin bootloader.bin

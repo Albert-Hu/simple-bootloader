@@ -55,7 +55,7 @@ SECTIONS
 	} > SRAM
 
 	_stack_size = 4k;
-	_stack_top = ORIGIN(SRAM) + LENGTH(SRAM) - 4;
+	_stack_top = ORIGIN(SRAM) + LENGTH(SRAM) - 1K; /* Reserve 1 KB to store the config. */
 	_heap_begin = ORIGIN(SRAM) + SIZEOF(.data) + SIZEOF(.bss);
 	_heap_end = ORIGIN(SRAM) + LENGTH(SRAM) - _stack_size;
 

@@ -29,7 +29,7 @@ void load_app(struct boot_config *config)
 	app_func app_start = (app_func) SET_THUMB_ADDRESS(*(&_app_entry + 1));
 	int len = sizeof(struct boot_config);
 	char *dest = (char*) config_addr;
-	const char *src = (char*) config;
+	const char *src = (const char*) config;
 
 	/*
 		Copy the config to the app's stack.
