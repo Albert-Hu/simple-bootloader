@@ -1,19 +1,23 @@
+# Simple Bootloader Based on STM32-P103
+
+Here have two examples of bootloader that based on STM32-P103.
+
 # Requirements
 - ARM Toolchain(arm-none-eabi)
 - QEMU(qemu-system-arm)
 
-# Simple Bootloader for STM32-P103
-- [Example 1](/arm/example_1)
-- [Example 2](/arm/example_2)
+## Example 1
 
-# How to Dump the ELF
+Example 1 runs the bootloader at power on, then loads and executes the app from the bootloader.
 
-```
-arm-none-eabi-objdump -D [file]
-```
+More details see the [Example 1](/example_1/README.md).
 
-# How to Debug using GDB
+## Example 2
 
-```
-qemu-system-arm -M stm32-p103 -nographic -kernel [elf file] -S -gdb tcp::[port number]
-```
+Example 2 is based on example 1, which extends the function that bootloader can send a config to the app.
+
+More details see the [Example 2](/example_2/README.md).
+
+# Debug Tips
+
+See the [how-to debug](/Debug.md).
