@@ -1,53 +1,40 @@
-# Boot Flow
-1. Execute bootloader code from 0x08000000.
-2. Run bootloader and initialize RAM, setup the .data section and clean up .bss section.
-3. Finish boot procedure and execute app code from 0x08008000.
-4. Run app and initialize RAM, setup the .data section and clean up .bss section.
+# The Boot Flow
 
-# What does Bootloader do?
-1. Print booting message.
-2. Reset MSP(Main Stack Pointer) register.
-3. Reset PC(Program Counter) to app's entry point.
+1. Run the bootloader.
+2. Bootloader initializes the hardware.
+3. Bootloader shows some messages to UART.
+4. Bootloader reset the **SP(stack pointer)** to the address of the stack of the app.
+5. Bootloader reset the **PC(Program Counter)** to the address of the entry of the app.
+6. The app initialization.
+7. App shows some messages to UART.
 
-# What does app do?
-1. Just print message.
-
-# ROM Partition
-- Bootloader start at 0x08000000
-- APP start at 0x08008000
+# Flash Layout
 
 ```
 +------------+
-|            |
-|    APP     |
-+------------+ 0x08008000
-|            |
+|    App     |
++------------+ 0x08010000
 | Bootloader |
 +------------+ 0x08000000
 ```
 
-# RAM & DRAM
-- RAM is used by main stack pointer.
-- DRAM is used by heap of malloc.
+# Memory Layout
+
+- The **stack** is allocated to 4KB.
+- The size of those sections **Data and BSS** depend on global variables of source code.
+- The **heap** uses the remaining memory.
 
 ```
-+------------+ 0x20010000
-|            |
-|   (DRAM)   |
-+------------+ 0x20008000
-|            |
-|   (RAM)    |
++------------+ 0x20040000
+|    Stack   |
++------------+ 0x2003F000
+|    Heap    |
++------------+ ?
+| Data & BSS |
 +------------+ 0x20000000
 ```
 
-## RAM
-- RAM size is 32KB.
-- RAM start at 0x20000000
-
-## DRAM
-- DRAM size is 32KB.
-- DRAM start at 0x20008000
-
 # Reference
+- [STM32-P103](https://www.olimex.com/Products/ARM/ST/STM32-P103/)
 - [mini-arm-os](https://github.com/jserv/mini-arm-os)
 - [How to Write a Bootloader from Scratch](https://interrupt.memfault.com/blog/how-to-write-a-bootloader-from-scratch)
