@@ -1,3 +1,23 @@
+# Build & Run
+
+Build the bootloader and the app:
+
+```
+make all
+```
+
+Run the QEMU:
+
+```
+make simulate
+```
+
+Clean up the space:
+
+```
+make clean
+```
+
 # The Boot Flow
 
 1. Run the bootloader.
